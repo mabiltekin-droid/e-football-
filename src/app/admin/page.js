@@ -23,7 +23,7 @@ export default function AdminPage() {
     })
 
     if (res.ok) {
-      setAdmin(true)
+      setAdmin(true, password)
       router.refresh()
     } else {
       setError('Hatalı şifre!')
