@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic'
 export default function StandingsPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-green-800 mb-6">Puan Durumu</h1>
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <h1 className="text-3xl font-bold gradient-text mb-8">📊 Puan Durumu</h1>
+      <div className="bg-white rounded-xl shadow-lg border border-green-100/50 overflow-hidden card-hover">
         <StandingsTable />
       </div>
     </div>

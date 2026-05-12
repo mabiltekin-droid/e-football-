@@ -39,17 +39,11 @@ export default function AdminStandings() {
     const points = parseInt(won) * 3 + parseInt(drawn)
     const body = {
       team_id: parseInt(teamId),
-      played: parseInt(played),
-      won: parseInt(won),
-      drawn: parseInt(drawn),
-      lost: parseInt(lost),
-      goals_for: parseInt(goalsFor),
-      goals_against: parseInt(goalsAgainst),
-      goal_diff: goalDiff,
-      points: points,
+      played: parseInt(played), won: parseInt(won), drawn: parseInt(drawn), lost: parseInt(lost),
+      goals_for: parseInt(goalsFor), goals_against: parseInt(goalsAgainst),
+      goal_diff: goalDiff, points,
     }
     if (editingId) body.id = editingId
-
     const method = editingId ? 'PUT' : 'POST'
     const res = await fetch('/api/standings', { method, headers: adminHeaders(), body: JSON.stringify(body) })
     if (res.ok) { resetForm(); loadData() }
@@ -62,8 +56,7 @@ export default function AdminStandings() {
 
   const handleEdit = (row) => {
     setTeamId(row.team_id); setPlayed(row.played); setWon(row.won); setDrawn(row.drawn)
-    setLost(row.lost); setGoalsFor(row.goals_for); setGoalsAgainst(row.goals_against)
-    setEditingId(row.id)
+    setLost(row.lost); setGoalsFor(row.goals_for); setGoalsAgainst(row.goals_against); setEditingId(row.id)
   }
 
   const handleDelete = async (id) => {
@@ -72,50 +65,72 @@ export default function AdminStandings() {
     if (res.ok) loadData()
   }
 
-  if (loading) return <div className="text-center py-12 text-gray-500">Yükleniyor...</div>
+  if (loading) return (
+    <div className="flex items-center justify-center py-20">
+      <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+
+  const fields = [
+    { label: 'Oynanan', val: played, set: setPlayed },
+    { label: 'Galibiyet', val: won, set: setWon, color: 'text-green-600' },
+    { label: 'Beraberlik', val: drawn, set: setDrawn, color: 'text-amber-600' },
+    { label: 'Mağlubiyet', val: lost, set: setLost, color: 'text-red-500' },
+    { label: 'Attığı', val: goalsFor, set: setGoalsFor },
+    { label: 'Yediği', val: goalsAgainst, set: setGoalsAgainst },
+  ]
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-green-800">Puan Durumu Yönetimi</h1>
-        <a href="/admin" className="text-sm text-green-600 hover:underline">← Admin Paneli</a>
+    <div className="animate-fadeIn">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold gradient-text">📊 Puan Durumu</h1>
+          <p className="text-sm text-gray-400 mt-1">Puan durumunu yönet</p>
+        </div>
+        <a href="/admin" className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors">← Admin Paneli</a>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-lg font-bold mb-4">{editingId ? 'Puan Durumu Düzenle' : 'Yeni Puan Durumu Ekle'}</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-3">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Takım</label>
-            <select value={teamId} onChange={(e) => setTeamId(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" required>
-              <option value="">Takım Seçin</option>
+      <div className="bg-white rounded-xl shadow-md border border-green-100/50 p-6 mb-6">
+        <h2 className="text-lg font-bold text-gray-800 mb-4">
+          {editingId ? '✏️ Puan Durumu Düzenle' : '➕ Yeni Puan Durumu Ekle'}
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Takım</label>
+            <select value={teamId} onChange={(e) => setTeamId(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" required>
+              <option value="">Takım Seç</option>
               {teams.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
           </div>
-          {[{ label: 'Oynanan', val: played, set: setPlayed },
-            { label: 'Galibiyet', val: won, set: setWon },
-            { label: 'Beraberlik', val: drawn, set: setDrawn },
-            { label: 'Mağlubiyet', val: lost, set: setLost },
-            { label: 'Attığı', val: goalsFor, set: setGoalsFor },
-            { label: 'Yediği', val: goalsAgainst, set: setGoalsAgainst },
-          ].map((field) => (
-            <div key={field.label}>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{field.label}</label>
-              <input type="number" value={field.val} onChange={(e) => field.set(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" />
-            </div>
-          ))}
-          <div className="md:col-span-3 flex gap-2">
-            <button type="submit" className="px-6 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+            {fields.map((f) => (
+              <div key={f.label}>
+                <label className={`block text-sm font-medium mb-1.5 ${f.color || 'text-gray-600'}`}>{f.label}</label>
+                <input type="number" value={f.val} onChange={(e) => f.set(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" />
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button type="submit"
+              className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-medium hover:from-green-700 hover:to-green-600 transition-all shadow-md hover:shadow-lg">
               {editingId ? 'Güncelle' : 'Ekle'}
             </button>
-            {editingId && <button type="button" onClick={resetForm} className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">İptal</button>}
+            {editingId && (
+              <button type="button" onClick={resetForm}
+                className="px-6 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition-all">
+                İptal
+              </button>
+            )}
           </div>
         </form>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-xl shadow-md border border-green-100/50 overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-green-700 text-white">
+            <tr className="bg-gradient-to-r from-green-700 to-green-600 text-white">
               <th className="p-3 text-left">Takım</th>
               <th className="p-3 text-center">O</th>
               <th className="p-3 text-center">G</th>
@@ -129,24 +144,35 @@ export default function AdminStandings() {
             </tr>
           </thead>
           <tbody>
-            {standings.map((row) => (
-              <tr key={row.id} className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="p-3 font-medium">{row.teams?.name}</td>
-                <td className="p-3 text-center">{row.played}</td>
-                <td className="p-3 text-center">{row.won}</td>
-                <td className="p-3 text-center">{row.drawn}</td>
-                <td className="p-3 text-center">{row.lost}</td>
+            {standings.map((row, i) => (
+              <tr key={row.id} className={`border-b border-gray-100 hover:bg-green-50/50 transition-colors ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}>
+                <td className="p-3 font-medium text-gray-800">{row.teams?.name}</td>
+                <td className="p-3 text-center text-gray-600">{row.played}</td>
+                <td className="p-3 text-center text-green-600 font-medium">{row.won}</td>
+                <td className="p-3 text-center text-amber-600">{row.drawn}</td>
+                <td className="p-3 text-center text-red-500">{row.lost}</td>
                 <td className="p-3 text-center">{row.goals_for}</td>
-                <td className="p-3 text-center">{row.goals_against}</td>
-                <td className="p-3 text-center">{row.goal_diff}</td>
-                <td className="p-3 text-center font-bold text-green-700">{row.points}</td>
+                <td className="p-3 text-center text-gray-500">{row.goals_against}</td>
+                <td className={`p-3 text-center font-semibold ${row.goal_diff > 0 ? 'text-green-600' : row.goal_diff < 0 ? 'text-red-500' : 'text-gray-500'}`}>
+                  {row.goal_diff > 0 ? '+' : ''}{row.goal_diff}
+                </td>
+                <td className="p-3 text-center">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg font-bold text-white text-xs bg-green-700">
+                    {row.points}
+                  </span>
+                </td>
                 <td className="p-3 text-right">
-                  <button onClick={() => handleEdit(row)} className="text-blue-600 hover:underline mr-3">Düzenle</button>
-                  <button onClick={() => handleDelete(row.id)} className="text-red-500 hover:underline">Sil</button>
+                  <button onClick={() => handleEdit(row)} className="text-blue-500 hover:text-blue-700 font-medium mr-3 transition-colors">✏️</button>
+                  <button onClick={() => handleDelete(row.id)} className="text-red-400 hover:text-red-600 font-medium transition-colors">🗑️</button>
                 </td>
               </tr>
             ))}
-            {standings.length === 0 && <tr><td colSpan={10} className="p-8 text-center text-gray-500">Henüz puan durumu eklenmemiş.</td></tr>}
+            {standings.length === 0 && (
+              <tr><td colSpan={10} className="p-12 text-center text-gray-400">
+                <div className="text-4xl mb-2">📊</div>
+                Henüz puan durumu eklenmemiş
+              </td></tr>
+            )}
           </tbody>
         </table>
       </div>

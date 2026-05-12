@@ -13,7 +13,6 @@ export default function AdminMatches() {
   const [matchDate, setMatchDate] = useState('')
   const [homeScore, setHomeScore] = useState('')
   const [awayScore, setAwayScore] = useState('')
-  const [status, setStatus] = useState('pending')
   const [editingId, setEditingId] = useState(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
@@ -45,7 +44,6 @@ export default function AdminMatches() {
       status: homeScore ? 'played' : 'pending',
     }
     if (editingId) body.id = editingId
-
     const method = editingId ? 'PUT' : 'POST'
     const res = await fetch('/api/matches', { method, headers: adminHeaders(), body: JSON.stringify(body) })
     if (res.ok) { resetForm(); loadData() }
@@ -53,14 +51,13 @@ export default function AdminMatches() {
 
   const resetForm = () => {
     setHomeTeamId(''); setAwayTeamId(''); setWeek(1); setMatchDate('')
-    setHomeScore(''); setAwayScore(''); setStatus('pending'); setEditingId(null)
+    setHomeScore(''); setAwayScore(''); setEditingId(null)
   }
 
   const handleEdit = (match) => {
     setHomeTeamId(match.home_team_id); setAwayTeamId(match.away_team_id)
     setWeek(match.week); setMatchDate(match.match_date?.split('T')[0] || '')
-    setHomeScore(match.home_score ?? ''); setAwayScore(match.away_score ?? '')
-    setStatus(match.status); setEditingId(match.id)
+    setHomeScore(match.home_score ?? ''); setAwayScore(match.away_score ?? ''); setEditingId(match.id)
   }
 
   const handleDelete = async (id) => {
@@ -69,63 +66,82 @@ export default function AdminMatches() {
     if (res.ok) loadData()
   }
 
-  if (loading) return <div className="text-center py-12 text-gray-500">Yükleniyor...</div>
+  if (loading) return (
+    <div className="flex items-center justify-center py-20">
+      <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-green-800">Maç Yönetimi</h1>
-        <a href="/admin" className="text-sm text-green-600 hover:underline">← Admin Paneli</a>
+    <div className="animate-fadeIn">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold gradient-text">📅 Maç Yönetimi</h1>
+          <p className="text-sm text-gray-400 mt-1">Maçları ekle, sonuçları gir</p>
+        </div>
+        <a href="/admin" className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors">← Admin Paneli</a>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-lg font-bold mb-4">{editingId ? 'Maç Düzenle' : 'Yeni Maç Ekle'}</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="bg-white rounded-xl shadow-md border border-green-100/50 p-6 mb-6">
+        <h2 className="text-lg font-bold text-gray-800 mb-4">
+          {editingId ? '✏️ Maç Düzenle' : '➕ Yeni Maç Ekle'}
+        </h2>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ev Sahibi</label>
-            <select value={homeTeamId} onChange={(e) => setHomeTeamId(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" required>
-              <option value="">Takım Seçin</option>
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Ev Sahibi</label>
+            <select value={homeTeamId} onChange={(e) => setHomeTeamId(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" required>
+              <option value="">Takım Seç</option>
               {teams.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Deplasman</label>
-            <select value={awayTeamId} onChange={(e) => setAwayTeamId(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" required>
-              <option value="">Takım Seçin</option>
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Deplasman</label>
+            <select value={awayTeamId} onChange={(e) => setAwayTeamId(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" required>
+              <option value="">Takım Seç</option>
               {teams.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Hafta</label>
-            <input type="number" value={week} onChange={(e) => setWeek(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" required />
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Hafta</label>
+            <input type="number" value={week} onChange={(e) => setWeek(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" required />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tarih (opsiyonel)</label>
-            <input type="date" value={matchDate} onChange={(e) => setMatchDate(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" />
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Tarih</label>
+            <input type="date" value={matchDate} onChange={(e) => setMatchDate(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" />
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Ev Skor</label>
-              <input type="number" value={homeScore} onChange={(e) => setHomeScore(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" placeholder="-" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Dep. Skor</label>
-              <input type="number" value={awayScore} onChange={(e) => setAwayScore(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" placeholder="-" />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Ev Skor</label>
+            <input type="number" value={homeScore} onChange={(e) => setHomeScore(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" placeholder="-" />
           </div>
-          <div className="md:col-span-2 flex gap-2">
-            <button type="submit" className="px-6 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors">
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Dep. Skor</label>
+            <input type="number" value={awayScore} onChange={(e) => setAwayScore(e.target.value)}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" placeholder="-" />
+          </div>
+          <div className="md:col-span-3 flex gap-2">
+            <button type="submit"
+              className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-medium hover:from-green-700 hover:to-green-600 transition-all shadow-md hover:shadow-lg">
               {editingId ? 'Güncelle' : 'Ekle'}
             </button>
-            {editingId && <button type="button" onClick={resetForm} className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">İptal</button>}
+            {editingId && (
+              <button type="button" onClick={resetForm}
+                className="px-6 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition-all">
+                İptal
+              </button>
+            )}
           </div>
         </form>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-xl shadow-md border border-green-100/50 overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-green-700 text-white">
+            <tr className="bg-gradient-to-r from-green-700 to-green-600 text-white">
               <th className="p-3 text-left">Hafta</th>
               <th className="p-3 text-left">Ev</th>
               <th className="p-3 text-center">Skor</th>
@@ -136,29 +152,40 @@ export default function AdminMatches() {
             </tr>
           </thead>
           <tbody>
-            {matches.map((match) => (
-              <tr key={match.id} className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="p-3 text-gray-500">{match.week}</td>
-                <td className="p-3 font-medium">{match.home_team?.name}</td>
+            {matches.map((match, i) => (
+              <tr key={match.id} className={`border-b border-gray-100 hover:bg-green-50/50 transition-colors ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}>
+                <td className="p-3 font-medium text-gray-500">{match.week}</td>
+                <td className="p-3 font-medium text-gray-800">{match.home_team?.name}</td>
                 <td className="p-3 text-center font-bold">
-                  {match.status === 'played' ? `${match.home_score} - ${match.away_score}` : '-'}
+                  {match.status === 'played' ? (
+                    <span className="text-green-700">{match.home_score} - {match.away_score}</span>
+                  ) : '-'}
                 </td>
-                <td className="p-3 font-medium">{match.away_team?.name}</td>
-                <td className="p-3 text-center text-gray-500 text-xs">
+                <td className="p-3 font-medium text-gray-800">{match.away_team?.name}</td>
+                <td className="p-3 text-center text-xs text-gray-400">
                   {match.match_date ? new Date(match.match_date).toLocaleDateString('tr-TR') : '-'}
                 </td>
                 <td className="p-3 text-center">
-                  <span className={`text-xs px-2 py-0.5 rounded ${match.status === 'played' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                  <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${
+                    match.status === 'played'
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-amber-100 text-amber-700'
+                  }`}>
                     {match.status === 'played' ? 'Oynandı' : 'Bekliyor'}
                   </span>
                 </td>
                 <td className="p-3 text-right">
-                  <button onClick={() => handleEdit(match)} className="text-blue-600 hover:underline mr-3">Düzenle</button>
-                  <button onClick={() => handleDelete(match.id)} className="text-red-500 hover:underline">Sil</button>
+                  <button onClick={() => handleEdit(match)} className="text-blue-500 hover:text-blue-700 font-medium mr-3 transition-colors">✏️</button>
+                  <button onClick={() => handleDelete(match.id)} className="text-red-400 hover:text-red-600 font-medium transition-colors">🗑️</button>
                 </td>
               </tr>
             ))}
-            {matches.length === 0 && <tr><td colSpan={7} className="p-8 text-center text-gray-500">Henüz maç eklenmemiş.</td></tr>}
+            {matches.length === 0 && (
+              <tr><td colSpan={7} className="p-12 text-center text-gray-400">
+                <div className="text-4xl mb-2">⚽</div>
+                Henüz maç eklenmemiş
+              </td></tr>
+            )}
           </tbody>
         </table>
       </div>
