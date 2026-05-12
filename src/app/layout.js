@@ -25,12 +25,12 @@ export default function RootLayout({ children }) {
         <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-8 animate-fadeIn">
           {children}
         </main>
-        <footer className="hero-gradient text-green-100 text-center py-6 mt-auto">
+        <footer className="bg-[#0a0a18] border-t border-[#D4AF37]/10 text-center py-6 mt-auto">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex flex-col items-center gap-2">
-              <span className="text-2xl">🏟️</span>
-              <p className="text-sm font-medium">&copy; 2026 EFootball Lig &bull; Tüm hakları saklıdır</p>
-              <p className="text-xs text-green-300/70">EFootball Mobile için hazırlanmıştır</p>
+              <span className="text-2xl">👑</span>
+              <p className="text-sm font-medium text-[#D4AF37]/60">&copy; 2026 EFootball Lig &bull; Tüm hakları saklıdır</p>
+              <p className="text-xs text-[#D4AF37]/30">Premium Football League Platform</p>
             </div>
           </div>
         </footer>

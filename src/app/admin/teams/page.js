@@ -44,7 +44,7 @@ export default function AdminTeams() {
 
   if (loading) return (
     <div className="flex items-center justify-center py-20">
-      <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
     </div>
   )
 
@@ -53,36 +53,36 @@ export default function AdminTeams() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold gradient-text">🏆 Takım Yönetimi</h1>
-          <p className="text-sm text-gray-400 mt-1">Ligdeki takımları yönet</p>
+          <p className="text-sm text-[#D4AF37]/40 mt-1">Ligdeki takımları yönet</p>
         </div>
-        <a href="/admin" className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors">← Admin Paneli</a>
+        <a href="/admin" className="text-sm text-[#D4AF37] hover:text-[#F5D061] font-medium transition-colors">← Admin Paneli</a>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md border border-green-100/50 p-6 mb-6">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">
+      <div className="dark-card rounded-xl p-6 mb-6">
+        <h2 className="text-lg font-bold text-white/80 mb-4">
           {editingId ? '✏️ Takım Düzenle' : '➕ Yeni Takım Ekle'}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">Takım Adı</label>
+              <label className="block text-sm font-medium text-[#D4AF37]/60 mb-1.5">Takım Adı</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" required />
+                className="w-full px-4 py-2.5 bg-[#1a1a3a] border border-[#D4AF37]/20 rounded-xl focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37]/50 outline-none text-white placeholder-white/20 transition-all" required />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">Logo URL</label>
+              <label className="block text-sm font-medium text-[#D4AF37]/60 mb-1.5">Logo URL</label>
               <input type="text" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none bg-gray-50/50 transition-all" placeholder="https://..." />
+                className="w-full px-4 py-2.5 bg-[#1a1a3a] border border-[#D4AF37]/20 rounded-xl focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37]/50 outline-none text-white placeholder-white/20 transition-all" placeholder="https://..." />
             </div>
           </div>
           <div className="flex gap-2">
             <button type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-medium hover:from-green-700 hover:to-green-600 transition-all shadow-md hover:shadow-lg">
+              className="px-6 py-2.5 gold-gradient text-[#0a0a18] rounded-xl font-bold hover:opacity-90 transition-all shadow-md">
               {editingId ? 'Güncelle' : 'Ekle'}
             </button>
             {editingId && (
               <button type="button" onClick={() => { setName(''); setLogoUrl(''); setEditingId(null) }}
-                className="px-6 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium hover:bg-gray-200 transition-all">
+                className="px-6 py-2.5 bg-white/5 text-white/60 rounded-xl font-medium hover:bg-white/10 transition-all">
                 İptal
               </button>
             )}
@@ -90,10 +90,10 @@ export default function AdminTeams() {
         </form>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md border border-green-100/50 overflow-hidden">
+      <div className="dark-card rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gradient-to-r from-green-700 to-green-600 text-white">
+            <tr className="gold-gradient text-[#0a0a18]">
               <th className="p-3 text-left">ID</th>
               <th className="p-3 text-left">Logo</th>
               <th className="p-3 text-left">Takım Adı</th>
@@ -102,26 +102,26 @@ export default function AdminTeams() {
           </thead>
           <tbody>
             {teams.map((team, i) => (
-              <tr key={team.id} className={`border-b border-gray-100 hover:bg-green-50/50 transition-colors ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}>
-                <td className="p-3 text-gray-400">{team.id}</td>
+              <tr key={team.id} className={`border-b border-[#2a2a4a] transition-colors ${i % 2 === 0 ? 'bg-[#12122a]' : 'bg-[#161630]'} hover:bg-[#1a1a3a]`}>
+                <td className="p-3 text-white/40">{team.id}</td>
                 <td className="p-3">
                   {team.logo_url ? (
-                    <img src={team.logo_url} alt="" className="w-9 h-9 object-contain rounded-full bg-green-50 p-1 border border-green-200" />
+                    <img src={team.logo_url} alt="" className="w-9 h-9 object-contain rounded-full bg-[#1a1a3a] p-1 border border-[#D4AF37]/20" />
                   ) : (
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-green-600 font-bold border border-green-200">
+                    <div className="w-9 h-9 rounded-full bg-[#1a1a3a] flex items-center justify-center text-[#D4AF37] font-bold border border-[#D4AF37]/20">
                       {team.name?.[0] || '?'}
                     </div>
                   )}
                 </td>
-                <td className="p-3 font-medium text-gray-800">{team.name}</td>
+                <td className="p-3 font-medium text-white/80">{team.name}</td>
                 <td className="p-3 text-right">
-                  <button onClick={() => handleEdit(team)} className="text-blue-500 hover:text-blue-700 font-medium mr-3 transition-colors">✏️ Düzenle</button>
-                  <button onClick={() => handleDelete(team.id)} className="text-red-400 hover:text-red-600 font-medium transition-colors">🗑️ Sil</button>
+                  <button onClick={() => handleEdit(team)} className="text-[#D4AF37] hover:text-[#F5D061] font-medium mr-3 transition-colors">✏️</button>
+                  <button onClick={() => handleDelete(team.id)} className="text-red-400 hover:text-red-300 font-medium transition-colors">🗑️</button>
                 </td>
               </tr>
             ))}
             {teams.length === 0 && (
-              <tr><td colSpan={4} className="p-12 text-center text-gray-400">
+              <tr><td colSpan={4} className="p-12 text-center text-[#D4AF37]/40">
                 <div className="text-4xl mb-2">🏆</div>
                 Henüz takım eklenmemiş
               </td></tr>

@@ -12,10 +12,10 @@ export default async function StandingsTable() {
 
   if (!standings || standings.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-400">
+      <div className="text-center py-16 text-[#D4AF37]/40">
         <div className="text-5xl mb-4">📋</div>
         <p className="text-lg">Henüz puan durumu oluşturulmadı</p>
-        <p className="text-sm mt-1">Admin panelinden ekleyebilirsin</p>
+        <p className="text-sm mt-1 text-[#D4AF37]/30">Admin panelinden ekleyebilirsin</p>
       </div>
     )
   }
@@ -24,7 +24,7 @@ export default async function StandingsTable() {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-gradient-to-r from-green-700 to-green-600 text-white">
+          <tr className="gold-gradient text-[#0a0a18]">
             <th className="p-3 text-left w-12">#</th>
             <th className="p-3 text-left">Takım</th>
             <th className="p-3 text-center w-10">O</th>
@@ -45,43 +45,45 @@ export default async function StandingsTable() {
             return (
               <tr
                 key={row.id}
-                className={`border-b border-gray-100 transition-all duration-200 hover:bg-green-50/80 ${
-                  isEven ? 'bg-white' : 'bg-gray-50/30'
-                } ${isTop3 ? 'font-medium' : ''}`}
+                className={`border-b border-[#2a2a4a] transition-all duration-200 ${
+                  isEven ? 'bg-[#12122a]' : 'bg-[#161630]'
+                } ${isTop3 ? 'hover:bg-[#1a1a3a]' : 'hover:bg-[#1a1a3a]'}`}
               >
                 <td className="p-3 text-center">
                   {isTop3 ? (
                     <span className="text-lg">{medals[i]}</span>
                   ) : (
-                    <span className="text-gray-400">{pos}</span>
+                    <span className="text-[#D4AF37]/40">{pos}</span>
                   )}
                 </td>
                 <td className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-sm border border-green-200">
+                    <div className="w-8 h-8 rounded-full bg-[#1a1a3a] flex items-center justify-center text-sm border border-[#D4AF37]/20">
                       {row.teams?.logo_url ? (
                         <img src={row.teams.logo_url} alt="" className="w-6 h-6 object-contain" />
                       ) : (
-                        <span className="text-green-600 font-bold">{row.teams?.name?.[0] || '?'}</span>
+                        <span className="text-[#D4AF37] font-bold">{row.teams?.name?.[0] || '?'}</span>
                       )}
                     </div>
-                    <span className={`${isTop3 ? 'text-gray-900 font-semibold' : 'text-gray-700'}`}>
+                    <span className={`${isTop3 ? 'text-[#D4AF37] font-semibold' : 'text-white/80'}`}>
                       {row.teams?.name || 'Bilinmeyen'}
                     </span>
                   </div>
                 </td>
-                <td className="p-3 text-center text-gray-600">{row.played}</td>
-                <td className="p-3 text-center text-green-600 font-medium">{row.won}</td>
-                <td className="p-3 text-center text-amber-600">{row.drawn}</td>
-                <td className="p-3 text-center text-red-500">{row.lost}</td>
-                <td className="p-3 text-center text-gray-700 font-medium">{row.goals_for}</td>
-                <td className="p-3 text-center text-gray-500">{row.goals_against}</td>
-                <td className={`p-3 text-center font-semibold ${row.goal_diff > 0 ? 'text-green-600' : row.goal_diff < 0 ? 'text-red-500' : 'text-gray-500'}`}>
+                <td className="p-3 text-center text-white/50">{row.played}</td>
+                <td className="p-3 text-center text-[#D4AF37] font-medium">{row.won}</td>
+                <td className="p-3 text-center text-white/60">{row.drawn}</td>
+                <td className="p-3 text-center text-red-400">{row.lost}</td>
+                <td className="p-3 text-center text-white/80 font-medium">{row.goals_for}</td>
+                <td className="p-3 text-center text-white/50">{row.goals_against}</td>
+                <td className={`p-3 text-center font-semibold ${row.goal_diff > 0 ? 'text-[#D4AF37]' : row.goal_diff < 0 ? 'text-red-400' : 'text-white/50'}`}>
                   {row.goal_diff > 0 ? '+' : ''}{row.goal_diff}
                 </td>
                 <td className="p-3 text-center">
-                  <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold text-white text-sm ${
-                    isTop3 ? 'bg-gradient-to-br from-green-500 to-green-600 shadow-md animate-pulse-glow' : 'bg-green-700'
+                  <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold text-sm ${
+                    isTop3
+                      ? 'gold-gradient text-[#0a0a18] shadow-lg animate-glow'
+                      : 'bg-[#D4AF37]/20 text-[#D4AF37]'
                   }`}>
                     {row.points}
                   </span>

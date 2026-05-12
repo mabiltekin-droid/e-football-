@@ -12,11 +12,11 @@ export default async function MatchesPage() {
   if (!matches || matches.length === 0) {
     return (
       <div>
-        <h1 className="text-3xl font-bold gradient-text mb-8">Maçlar</h1>
-        <div className="text-center py-20 bg-white rounded-xl shadow-md border border-green-100/50">
+        <h1 className="text-3xl font-bold gradient-text mb-8">📍 Maçlar</h1>
+        <div className="text-center py-20 dark-card rounded-xl">
           <div className="text-6xl mb-4">⚽</div>
-          <p className="text-lg text-gray-400">Henüz maç eklenmedi</p>
-          <p className="text-sm text-gray-300 mt-1">Admin panelinden ekleyebilirsin</p>
+          <p className="text-lg text-[#D4AF37]/40">Henüz maç eklenmedi</p>
+          <p className="text-sm text-[#D4AF37]/30 mt-1">Admin panelinden ekleyebilirsin</p>
         </div>
       </div>
     )
@@ -33,48 +33,48 @@ export default async function MatchesPage() {
           return (
             <section key={week} className="animate-slideUp" style={{ animationDelay: `${wi * 0.1}s` }}>
               <div className="flex items-center gap-3 mb-5">
-                <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center text-sm font-bold shadow-md">
+                <span className="w-8 h-8 rounded-lg gold-gradient text-[#0a0a18] flex items-center justify-center text-sm font-bold shadow-md">
                   {week}
                 </span>
-                <h2 className="text-xl font-bold text-gray-800">Hafta {week}</h2>
-                <div className="flex-1 h-px bg-gradient-to-r from-green-200 to-transparent" />
+                <h2 className="text-xl font-bold text-white/80">Hafta {week}</h2>
+                <div className="flex-1 h-px bg-gradient-to-r from-[#D4AF37]/30 to-transparent" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {weekMatches.map((match) => (
                   <div
                     key={match.id}
-                    className="bg-white rounded-xl p-5 shadow-md border border-green-100/50 card-hover"
+                    className="dark-card rounded-xl p-5 card-hover"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1 text-right pr-4">
-                        <span className="font-semibold text-gray-800 text-lg">
+                        <span className="font-semibold text-white/80 text-lg">
                           {match.home_team?.name}
                         </span>
                       </div>
 
                       <div className="flex-shrink-0">
                         {match.status === 'played' ? (
-                          <div className="flex items-center gap-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl px-5 py-2.5 border-2 border-green-200">
-                            <span className="text-2xl font-black text-green-800">{match.home_score}</span>
-                            <span className="text-sm font-bold text-gray-300">:</span>
-                            <span className="text-2xl font-black text-green-800">{match.away_score}</span>
+                          <div className="flex items-center gap-3 bg-[#D4AF37]/10 rounded-2xl px-5 py-2.5 border-2 border-[#D4AF37]/20">
+                            <span className="text-2xl font-black text-[#D4AF37]">{match.home_score}</span>
+                            <span className="text-sm font-bold text-white/30">:</span>
+                            <span className="text-2xl font-black text-[#D4AF37]">{match.away_score}</span>
                           </div>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-sm font-medium border border-amber-200">
-                            <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                          <span className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#D4AF37]/5 text-[#D4AF37]/60 rounded-xl text-sm font-medium border border-[#D4AF37]/10">
+                            <span className="w-2 h-2 bg-[#D4AF37]/60 rounded-full animate-pulse-dot" />
                             Maç Bekleniyor
                           </span>
                         )}
                       </div>
 
                       <div className="flex-1 pl-4">
-                        <span className="font-semibold text-gray-800 text-lg">
+                        <span className="font-semibold text-white/80 text-lg">
                           {match.away_team?.name}
                         </span>
                       </div>
                     </div>
                     {match.match_date && (
-                      <div className="text-center mt-3 text-xs text-gray-400">
+                      <div className="text-center mt-3 text-xs text-white/30">
                         🗓️ {new Date(match.match_date).toLocaleDateString('tr-TR', {
                           day: 'numeric', month: 'long', year: 'numeric'
                         })}

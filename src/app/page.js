@@ -13,22 +13,22 @@ export default async function Home() {
   ])
 
   const stats = [
-    { label: 'Takım', value: teamCount || 0, icon: '🏆', color: 'from-emerald-500 to-green-600' },
-    { label: 'Oyuncu', value: playerCount || 0, icon: '⭐', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Maç', value: matchCount || 0, icon: '⚽', color: 'from-amber-500 to-orange-600' },
+    { label: 'Takım', value: teamCount || 0, icon: '🏆', color: 'from-[#D4AF37] to-[#B8962E]' },
+    { label: 'Oyuncu', value: playerCount || 0, icon: '⭐', color: 'from-[#F5D061] to-[#D4AF37]' },
+    { label: 'Maç', value: matchCount || 0, icon: '⚽', color: 'from-[#B8962E] to-[#8B6914]' },
   ]
 
   return (
     <div className="space-y-10">
-      <div className="hero-gradient rounded-2xl p-8 md:p-12 text-white text-center relative overflow-hidden">
+      <div className="gold-gradient rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
         <div className="relative">
-          <div className="text-5xl md:text-6xl mb-4 animate-bounce">🏟️</div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
+          <div className="text-5xl md:text-6xl mb-4">👑</div>
+          <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-[#0a0a18]">
             EFootball Lig
           </h1>
-          <p className="text-green-100/80 text-lg max-w-lg mx-auto">
-            EFootball Mobile turnuvalarının resmi puan durumu ve istatistik sayfası
+          <p className="text-[#0a0a18]/70 text-lg max-w-lg mx-auto font-medium">
+            Premium Football League Platform
           </p>
         </div>
       </div>
@@ -37,15 +37,15 @@ export default async function Home() {
         {stats.map((stat, i) => (
           <div
             key={stat.label}
-            className={`animate-slideUp stagger-${i + 1} bg-white rounded-xl p-6 shadow-md border border-green-100/50 card-hover`}
+            className={`animate-slideUp stagger-${i + 1} dark-card rounded-xl p-6 card-hover`}
           >
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-xl shadow-lg`}>
                 {stat.icon}
               </div>
               <div>
-                <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                <div className="text-sm text-gray-500">{stat.label}</div>
+                <div className="text-2xl font-bold text-[#D4AF37]">{stat.value}</div>
+                <div className="text-sm text-[#D4AF37]/50">{stat.label}</div>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@ export default async function Home() {
           <span className="text-2xl">📊</span>
           <h2 className="text-2xl font-bold gradient-text">Puan Durumu</h2>
         </div>
-        <div className="bg-white rounded-xl shadow-lg border border-green-100/50 overflow-hidden card-hover">
+        <div className="dark-card rounded-xl overflow-hidden card-hover">
           <StandingsTable />
         </div>
       </section>
