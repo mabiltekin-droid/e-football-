@@ -1,5 +1,7 @@
 import StandingsTable from '@/components/StandingsTable'
 
+export const dynamic = 'force-dynamic'
+
 export default function StandingsPage() {
   return (
     <div>
