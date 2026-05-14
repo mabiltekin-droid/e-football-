@@ -13,6 +13,7 @@ export default function Navbar() {
     { href: '/standings', label: 'Puan Durumu', icon: '📊' },
     { href: '/matches', label: 'Maçlar', icon: '⚽' },
     { href: '/players', label: 'Oyuncular', icon: '⭐' },
+    { href: '/chat', label: 'Sohbet', icon: '💬' },
     { href: '/admin', label: 'Admin', icon: '⚙️' },
   ]
 

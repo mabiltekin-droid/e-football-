@@ -45,19 +45,28 @@ CREATE TABLE standings (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE messages (
+  id BIGSERIAL PRIMARY KEY,
+  nickname TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Enable Row Level Security
 ALTER TABLE teams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
 ALTER TABLE matches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE standings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
 -- Allow public read access
 CREATE POLICY "Public read teams" ON teams FOR SELECT USING (true);
 CREATE POLICY "Public read players" ON players FOR SELECT USING (true);
 CREATE POLICY "Public read matches" ON matches FOR SELECT USING (true);
 CREATE POLICY "Public read standings" ON standings FOR SELECT USING (true);
+CREATE POLICY "Public read messages" ON messages FOR SELECT USING (true);
 
--- Allow anon insert/update/delete (we protect via admin password)
+-- Allow anon insert/update/delete
 CREATE POLICY "Anon insert teams" ON teams FOR INSERT WITH CHECK (true);
 CREATE POLICY "Anon update teams" ON teams FOR UPDATE USING (true);
 CREATE POLICY "Anon delete teams" ON teams FOR DELETE USING (true);
@@ -73,3 +82,9 @@ CREATE POLICY "Anon delete matches" ON matches FOR DELETE USING (true);
 CREATE POLICY "Anon insert standings" ON standings FOR INSERT WITH CHECK (true);
 CREATE POLICY "Anon update standings" ON standings FOR UPDATE USING (true);
 CREATE POLICY "Anon delete standings" ON standings FOR DELETE USING (true);
+
+CREATE POLICY "Anon insert messages" ON messages FOR INSERT WITH CHECK (true);
+CREATE POLICY "Anon delete messages" ON messages FOR DELETE USING (true);
+
+-- Enable Realtime for messages (run separately if needed)
+-- Go to: Database > Replication > Enable replication for "messages" table
