@@ -78,8 +78,9 @@ export default function AdminPage() {
   const cards = [
     { href: '/admin/teams', icon: '🏆', title: 'Takımlar', desc: 'Takım ekle, düzenle, sil', color: 'from-[#D4AF37] to-[#B8962E]' },
     { href: '/admin/players', icon: '⭐', title: 'Oyuncular', desc: 'Oyuncu ekle, düzenle, sil', color: 'from-[#F5D061] to-[#D4AF37]' },
-    { href: '/admin/matches', icon: '📅', title: 'Maçlar', desc: 'Maç ekle, sonuç gir', color: 'from-[#B8962E] to-[#8B6914]' },
-    { href: '/admin/standings', icon: '📊', title: 'Puan Durumu', desc: 'Puan durumunu düzenle', color: 'from-[#D4AF37] to-[#8B6914]' },
+    { href: '/admin/matches', icon: '⚽', title: 'Maçlar', desc: 'Maç ekle, sonuç gir', color: 'from-[#B8962E] to-[#8B6914]' },
+    { href: '/admin/fixtures', icon: '📅', title: 'Fikstür', desc: 'Fikstür oluştur', color: 'from-[#D4AF37] to-[#8B6914]' },
+    { href: '/admin/standings', icon: '📊', title: 'Puan Durumu', desc: 'Puan durumunu düzenle', color: 'from-emerald-500 to-green-600' },
   ]
 
   return (
@@ -97,7 +98,7 @@ export default function AdminPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
         {cards.map((card, i) => (
           <a
             key={card.href}
