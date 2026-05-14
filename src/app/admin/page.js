@@ -81,6 +81,7 @@ export default function AdminPage() {
     { href: '/admin/matches', icon: '⚽', title: 'Maçlar', desc: 'Maç ekle, sonuç gir', color: 'from-[#B8962E] to-[#8B6914]' },
     { href: '/admin/fixtures', icon: '📅', title: 'Fikstür', desc: 'Fikstür oluştur', color: 'from-[#D4AF37] to-[#8B6914]' },
     { href: '/admin/standings', icon: '📊', title: 'Puan Durumu', desc: 'Puan durumunu düzenle', color: 'from-emerald-500 to-green-600' },
+    { href: '/admin/announcements', icon: '📢', title: 'Duyurular', desc: 'Duyuru yayınla', color: 'from-blue-500 to-indigo-600' },
   ]
 
   return (
@@ -98,7 +99,7 @@ export default function AdminPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5">
         {cards.map((card, i) => (
           <a
             key={card.href}

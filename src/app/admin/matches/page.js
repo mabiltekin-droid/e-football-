@@ -63,6 +63,14 @@ export default function AdminMatches() {
     if (res.ok) loadData()
   }
 
+  const quickUpdateScore = async (id, home, away) => {
+    await fetch('/api/matches', {
+      method: 'PUT', headers: adminHeaders(),
+      body: JSON.stringify({ id, home_score: home, away_score: away, status: 'played' }),
+    })
+    loadData()
+  }
+
   if (loading) return (
     <div className="flex items-center justify-center py-20">
       <div className="w-8 h-8 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
@@ -153,9 +161,17 @@ export default function AdminMatches() {
               <tr key={match.id} className={`border-b border-[#2a2a4a] transition-colors ${i % 2 === 0 ? 'bg-[#12122a]' : 'bg-[#161630]'} hover:bg-[#1a1a3a]`}>
                 <td className="p-3 font-medium text-[#D4AF37]/60">{match.week}</td>
                 <td className="p-3 font-medium text-white/80">{match.home_team?.name}</td>
-                <td className="p-3 text-center font-bold">
+                <td className="p-3 text-center">
                   {match.status === 'played' ? (
-                    <span className="text-[#D4AF37]">{match.home_score} - {match.away_score}</span>
+                    <div className="flex items-center justify-center gap-1">
+                      <button onClick={() => quickUpdateScore(match.id, (match.home_score||0)+1, match.away_score)}
+                        className="w-5 h-5 rounded bg-[#D4AF37]/20 text-[#D4AF37] text-xs hover:bg-[#D4AF37]/40 transition-colors">+</button>
+                      <span className="font-bold text-[#D4AF37] mx-1 min-w-[20px]">{match.home_score}</span>
+                      <span className="text-white/30">-</span>
+                      <span className="font-bold text-[#D4AF37] mx-1 min-w-[20px]">{match.away_score}</span>
+                      <button onClick={() => quickUpdateScore(match.id, match.home_score, (match.away_score||0)+1)}
+                        className="w-5 h-5 rounded bg-[#D4AF37]/20 text-[#D4AF37] text-xs hover:bg-[#D4AF37]/40 transition-colors">+</button>
+                    </div>
                   ) : <span className="text-white/30">-</span>}
                 </td>
                 <td className="p-3 font-medium text-white/80">{match.away_team?.name}</td>

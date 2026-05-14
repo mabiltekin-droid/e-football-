@@ -52,6 +52,13 @@ CREATE TABLE messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE announcements (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Enable Row Level Security
 ALTER TABLE teams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
@@ -85,6 +92,12 @@ CREATE POLICY "Anon delete standings" ON standings FOR DELETE USING (true);
 
 CREATE POLICY "Anon insert messages" ON messages FOR INSERT WITH CHECK (true);
 CREATE POLICY "Anon delete messages" ON messages FOR DELETE USING (true);
+
+-- Announcements
+ALTER TABLE announcements ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public read announcements" ON announcements FOR SELECT USING (true);
+CREATE POLICY "Anon insert announcements" ON announcements FOR INSERT WITH CHECK (true);
+CREATE POLICY "Anon delete announcements" ON announcements FOR DELETE USING (true);
 
 -- Enable Realtime for messages (run separately if needed)
 -- Go to: Database > Replication > Enable replication for "messages" table
