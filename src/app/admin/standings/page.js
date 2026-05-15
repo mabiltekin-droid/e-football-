@@ -16,12 +16,20 @@ export default function AdminStandings() {
   const [goalsAgainst, setGoalsAgainst] = useState(0)
   const [editingId, setEditingId] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [recalculating, setRecalculating] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
     if (!isAdmin()) { router.push('/admin'); return }
     loadData()
   }, [])
+
+  const recalculate = async () => {
+    setRecalculating(true)
+    await fetch('/api/standings', { method: 'PATCH', headers: adminHeaders() })
+    await loadData()
+    setRecalculating(false)
+  }
 
   const loadData = async () => {
     const [standingsRes, teamsRes] = await Promise.all([
@@ -87,7 +95,13 @@ export default function AdminStandings() {
           <h1 className="text-2xl font-bold gradient-text">📊 Puan Durumu</h1>
           <p className="text-sm text-[#D4AF37]/40 mt-1">Puan durumunu yönet</p>
         </div>
-        <a href="/admin" className="text-sm text-[#D4AF37] hover:text-[#F5D061] font-medium transition-colors">← Admin Paneli</a>
+        <div className="flex items-center gap-3">
+          <button onClick={recalculate} disabled={recalculating}
+            className="px-4 py-2 text-sm gold-gradient text-[#0a0a18] rounded-xl font-bold hover:opacity-90 transition-all shadow-md disabled:opacity-50">
+            {recalculating ? 'Hesaplanıyor...' : '🔄 Maçlardan Hesapla'}
+          </button>
+          <a href="/admin" className="text-sm text-[#D4AF37] hover:text-[#F5D061] font-medium transition-colors">← Admin Paneli</a>
+        </div>
       </div>
 
       <div className="dark-card rounded-xl p-6 mb-6">
